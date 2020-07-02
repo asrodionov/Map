@@ -7,50 +7,28 @@ public class FileOpenManager {
     Map<String, String> applications = new HashMap<>();
 
     public void add(String key, String value) {
-        applications.put(key, value);
-    }
-
-    public Map<String, String> getAll() {
-
-        Map<String, String> tmp = new HashMap<>();
-
-        for (Map.Entry<String, String> application : applications.entrySet()) {
-            tmp.put(application.getKey().toLowerCase(), application.getValue());
-        }
-        return tmp;
+        applications.put(key.toLowerCase(), value);
     }
 
     public String getApplicationByExpansion(String expansion) {
 
-        for (Map.Entry<String, String> application : applications.entrySet())
-            if (application.getKey().equals(expansion)) {
-                return application.getValue();
-            }
-        return null;
+        return applications.get(expansion.toLowerCase());
     }
 
     public void unregisteredApplication(String expansion) {
 
-        applications.entrySet().removeIf(application -> application.getKey().equals(expansion));
+        applications.remove(expansion.toLowerCase());
     }
 
-    public Set<String> getApplicationList() {
+    public List<String> getApplicationList() {
 
-        Set<String> names = new HashSet<>();
-
-        for (Map.Entry<String, String> application : applications.entrySet()) {
-            names.add(application.getValue());
-        }
-        return names;
+        List<String> apps = new ArrayList<>(applications.values());
+        Collections.sort(apps);
+        return apps;
     }
 
     public Set<String> getExtensionList() {
 
-        Set<String> extension = new HashSet<>();
-
-        for (Map.Entry<String, String> application : applications.entrySet()) {
-            extension.add(application.getKey().toLowerCase());
-        }
-        return extension;
+        return applications.keySet();
     }
 }
